@@ -3,10 +3,13 @@ from flask_cors import CORS
 import json
 import os
 import socket
+from pantry_analyzer import analyze_pantry_images
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+
+# region endpoints
 @app.route('/api/bots', methods=['GET'])
 def get_bots():
     try:
@@ -49,7 +52,6 @@ def edit_inv():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 @app.route('/api/inventory', methods=['GET'])
 def send_inv():
     try:
@@ -68,7 +70,36 @@ def send_inv():
         return jsonify({'error': 'Invalid JSON format'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+# endregion
 
+# region pantry ana
+@app.route("/api/analyze_pantry", methods=["POST"])
+def analyze_pantry():
+    """
+    Endpoint to analyze pantry changes from before/after images.
+    Expects multipart/form-data with 'before_image' and 'after_image' files.
+    """
+    try:
+        if "before_image" not in request.files or "after_image" not in request.files:
+            return jsonify({"error": "Missing before_image or after_image"}), 400
+
+        before_image = request.files["before_image"]
+        after_image = request.files["after_image"]
+
+        before_bytes = before_image.read()
+        after_bytes = after_image.read()
+
+        # Use the analyzer module
+        response = analyze_pantry_images(before_bytes, after_bytes)
+
+        return jsonify(response.dict()), 200
+
+    except Exception as e:
+        print(f"Error in analyze_pantry: {e}")
+        return jsonify({"error": str(e)}), 500
+# endregion
+
+# region server nom
 def get_local_ip():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -83,7 +114,13 @@ if __name__ == '__main__':
     local_ip = get_local_ip()
     print(f"\n{'='*50}")
     print(f"Server starting on:")
-    print(f"  Local:   http://localhost:5000/api/bots")
-    print(f"  Network: http://{local_ip}:5000/api/bots")
+    print(f"  Local:   http://localhost:5000")
+    print(f"  Network: http://{local_ip}:5000")
+    print(f"\nAvailable endpoints:")
+    print(f"  GET  /api/bots")
+    print(f"  POST /api/recipes")
+    print(f"  GET  /api/inventory")
+    print(f"  POST /api/edit_inventory")
+    print(f"  POST /api/analyze_pantry")
     print(f"{'='*50}\n")
     app.run(debug=True, host='0.0.0.0', port=5000)

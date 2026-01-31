@@ -1,48 +1,38 @@
 {
     "items_added": [],
     "items_removed": [
-        "Oreo Original pack"
+        "Oreo Original 6x"
     ],
     "current_full_inventory": [
         {
-            "id": "61872535-c9e4-4201-b77c-5d8706d91139",
-            "name": "330ml Coke Original Taste",
-            "expiry_date": "2026-10-31"
+            "id": "6351f791-bccc-4ce5-84bd-ab135d57d2b8",
+            "name": "Coca-Cola Original Taste 330ml",
+            "expiry_date": "2026-08-31"
         },
         {
-            "id": "d2da5e49-d5ec-4811-8cf0-9fc4c6908a42",
+            "id": "096483e7-66f9-4eba-9f35-d40a57a98f65",
             "name": "Walkers Crisps",
             "expiry_date": "2026-05-31"
         },
         {
-            "id": "2b4962a8-61d0-4fba-b359-d6b5bc39da58",
-            "name": "Green Skinny Snack Bar",
-            "expiry_date": "2026-08-31"
+            "id": "50b895a4-5c24-40b6-9acc-b75f6938d274",
+            "name": "Nestl\u00e9 Smarties 3x",
+            "expiry_date": "2026-11-30"
         },
         {
-            "id": "cf0150f2-3a2a-451f-8858-2a9bf712b0fe",
-            "name": "Orange Mini Snack Cake",
-            "expiry_date": "2026-07-31"
+            "id": "7766feea-b4f1-4439-a7ca-48447f12f52f",
+            "name": "KitKat Orange",
+            "expiry_date": "2026-11-30"
         },
         {
-            "id": "c73f057c-8ea1-4443-994a-5716692cc584",
+            "id": "ebf4434d-7dad-4435-89a7-ff9aa7dac34b",
+            "name": "Spearmint Chews",
+            "expiry_date": "2027-01-31"
+        },
+        {
+            "id": "7177cf5a-d174-409d-9c06-551c4e956d3d",
             "name": "Orange Lollipop",
             "expiry_date": "2027-01-31"
-        },
-        {
-            "id": "69273ebd-07a8-4e40-bbc9-691c93841d03",
-            "name": "Nestle Smarties Tube",
-            "expiry_date": "2027-01-31"
-        },
-        {
-            "id": "e7d50722-4074-4b8b-a4f0-9c7370e8a6d5",
-            "name": "Mindfully Snackful Bar",
-            "expiry_date": "2026-09-30"
-        },
-        {
-            "id": "sagar-cool-stuff",
-            "name": "yummy foods by sagar",
-            "expiry_date": "2026-02-01"
         }
     ]
 }

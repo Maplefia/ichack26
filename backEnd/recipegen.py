@@ -3,7 +3,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 
 # Configure the API key - Ensure you have this in your environment variables
-os.environ["GOOGLE_API_KEY"] = os.environ.get("API_KEY", "")
+os.environ["GOOGLE_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
 
 llm = ChatGoogleGenerativeAI(model="gemini-3-flash-preview")
 
