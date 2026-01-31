@@ -1,0 +1,38 @@
+.main {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 2rem 1rem;
+    background-color: #fff;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    gap: 1rem;
+    height: auto;
+    min-height: 8vh;
+}
+
+.main a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    color: #666;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+}
+
+.main a:hover {
+    color: #333;
+    transform: scale(1.1);
+}
+
+.main a.active {
+    color: #007bff;
+    transform: scale(1.2);
+}

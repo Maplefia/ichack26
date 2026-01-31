@@ -1,0 +1,1 @@
+export const backendServer = "10.148.130.160"
