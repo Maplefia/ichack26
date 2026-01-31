@@ -15,7 +15,7 @@ type SortOrder = 'asc' | 'desc';
 
 async function fetchInventoryFromAPI() {
     try {
-        const response = await fetch(`http://${backendServer}:5000/api/inventory`)
+        const response = await fetch(`http://${backendServer}/api/inventory`)
         if (!response.ok) {
             throw new Error(`API error: ${response.status}`)
         }
@@ -29,7 +29,7 @@ async function fetchInventoryFromAPI() {
 
 async function addInventoryItem(item: Omit<InventoryCardType, 'id' | 'date_added'>) {
     try {
-        const response = await fetch(`http://${backendServer}:5000/api/inventory`, {
+        const response = await fetch(`http://${backendServer}/api/inventory`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ async function addInventoryItem(item: Omit<InventoryCardType, 'id' | 'date_added
 
 async function deleteInventoryItem(id: string) {
     try {
-        const response = await fetch(`http://${backendServer}:5000/api/inventory/${id}`, {
+        const response = await fetch(`http://${backendServer}/api/inventory/${id}`, {
             method: 'DELETE'
         })
         if (!response.ok) {
@@ -271,13 +271,14 @@ export default function Inventory() {
                                 onDelete={handleDeleteItem}
                             />
                         ))}
-                    </div>
+                    
                     <button 
                         className={styles.addItemButton}
                         onClick={() => setIsPopupOpen(true)}
                     >
                         + Add Item
                     </button>
+                    </div>
                     <AddItemPopup 
                         isOpen={isPopupOpen}
                         onClose={() => setIsPopupOpen(false)}

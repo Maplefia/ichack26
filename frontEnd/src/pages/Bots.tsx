@@ -28,7 +28,7 @@ function BotCard(botProps: BotCardTypes) {
 
 async function fetchBotsFromAPI(): Promise<BotCardTypes[]> {
     try {
-        const response = await fetch(`http://${backendServer}:5000/api/bots`)
+        const response = await fetch(`http://${backendServer}/api/bots`)
         if (!response.ok) {
             throw new Error(`API error: ${response.status}`)
         }

@@ -4,7 +4,7 @@ import styles from "../styles/Recipes.module.css"
 
 async function fetchRecipesFromAPI(allergens: string[]) {
     try {
-        const response = await fetch(`http://${backendServer}:5000/api/recipes`, {
+        const response = await fetch(`http://${backendServer}/api/recipes`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
