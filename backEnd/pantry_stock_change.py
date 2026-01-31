@@ -124,6 +124,17 @@ async def analyze_pantry(
         # This now creates objects with IDs for the removed items
         processed_removed = [map_removed_string_to_item(name) for name in analysis.items_removed]
 
+        # Save the updated pantry state to pantry_state.json
+        pantry_state_file = "pantry_state.json"
+        pantry_state = {
+            "items_added": [item.model_dump() for item in processed_added],
+            "items_removed": [item.model_dump() for item in processed_removed],
+            "current_full_inventory": [item.model_dump() for item in processed_full]
+        }
+
+        with open(pantry_state_file, "w") as f:
+            json.dump(pantry_state, f, indent=4)
+
         return PantryInventory(
             items_added=processed_added,
             items_removed=processed_removed,
