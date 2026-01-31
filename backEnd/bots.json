@@ -1,0 +1,11 @@
+[
+    {
+        "id": "1",
+        "status": "Connected",
+        "battery": "0.6"
+    },
+    {
+        "id": "1",
+        "status": "Disconnected"
+    }
+]
