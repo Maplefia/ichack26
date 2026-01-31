@@ -1,0 +1,56 @@
+{
+    "items_added": [],
+    "items_removed": [
+        "Oreo Original pack"
+    ],
+    "current_full_inventory": [
+        {
+            "id": "61872535-c9e4-4201-b77c-5d8706d91139",
+            "name": "330ml Coke Original Taste",
+            "expiry_date": "2026-10-31",
+            "date_added": "2026-01-31"
+        },
+        {
+            "id": "d2da5e49-d5ec-4811-8cf0-9fc4c6908a42",
+            "name": "Walkers Crisps",
+            "expiry_date": "2026-05-31",
+            "date_added": "2026-01-31"
+        },
+        {
+            "id": "2b4962a8-61d0-4fba-b359-d6b5bc39da58",
+            "name": "Green Skinny Snack Bar",
+            "expiry_date": "2026-08-31",
+            "date_added": "2026-01-31"
+        },
+        {
+            "id": "cf0150f2-3a2a-451f-8858-2a9bf712b0fe",
+            "name": "Orange Mini Snack Cake",
+            "expiry_date": "2026-07-31",
+            "date_added": "2026-01-31"
+        },
+        {
+            "id": "c73f057c-8ea1-4443-994a-5716692cc584",
+            "name": "Orange Lollipop",
+            "expiry_date": "2027-01-31",
+            "date_added": "2026-01-31"
+        },
+        {
+            "id": "69273ebd-07a8-4e40-bbc9-691c93841d03",
+            "name": "Nestle Smarties Tube",
+            "expiry_date": "2027-01-31",
+            "date_added": "2026-01-31"
+        },
+        {
+            "id": "e7d50722-4074-4b8b-a4f0-9c7370e8a6d5",
+            "name": "Mindfully Snackful Bar",
+            "expiry_date": "2026-09-30",
+            "date_added": "2026-01-31"
+        },
+        {
+            "name": "q",
+            "expiry_date": "2026-01-31",
+            "id": "6b2afaab-b84a-46f0-a3fe-a58f01e6a7c2",
+            "date_added": "2026-01-31"
+        }
+    ]
+}

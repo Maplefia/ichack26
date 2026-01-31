@@ -1,0 +1,80 @@
+/* Main container */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 12vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.pageName {
+    margin-top: 20%;
+    position: relative;
+    top: 20%;
+}
+
+/* Card styling */
+.card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.card h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.card h3 {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #666;
+}
+
+.card p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.battery {
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.battery.high {
+    color: #22c55e;
+}
+
+.battery.low {
+    color: #ef4444;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem 0.5rem;
+        gap: 1rem;
+    }
+
+    .card {
+        padding: 1rem;
+        border-radius: 0.75rem;
+    }
+
+    .card h2 {
+        font-size: 1.25rem;
+    }
+}

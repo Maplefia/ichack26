@@ -1,0 +1,41 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.indicator {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+    animation: spin 1s linear infinite;
+}
+
+.circle {
+  fill: none;
+  stroke: rgba(239, 20, 96, 0.7);
+  stroke-linecap: round;
+  stroke-width: 8;
+  animation: draw 3s ease-in-out infinite;
+
+}
+
+@keyframes draw {
+    0% {
+      stroke-dasharray: 20, 282.6;
+    }
+    50% {
+      stroke-dasharray: 200, 282.6;
+    }
+    100% {
+      stroke-dasharray: 20, 282.6;
+    }
+}
+   
+@keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+}
