@@ -117,7 +117,6 @@ def get_inventory():
         with open(PANTRY_STATE_FILE, 'r') as file:
             pantry_data = json.load(file)
         
-        # Return only current_full_inventory
         inventory = pantry_data.get('current_full_inventory', [])
         return jsonify(inventory), 200
     except FileNotFoundError:
