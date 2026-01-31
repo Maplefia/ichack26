@@ -39,13 +39,16 @@ def get_or_create_uuid(item_name: str) -> str:
     name_key = item_name.strip().lower()
     registry = {}
     
-    # Load existing registry
-    if os.path.exists(DB_FILE):
+    # Load existing pantry state which contains the registry
+    pantry_data = {}
+    if os.path.exists(PANTRY_STATE_FILE):
         try:
-            with open(DB_FILE, "r") as f:
-                registry = json.load(f)
+            with open(PANTRY_STATE_FILE, "r") as f:
+                pantry_data = json.load(f)
         except (json.JSONDecodeError, IOError):
-            registry = {}
+            pantry_data = {}
+    
+    registry = pantry_data.get('item_registry', {})
     
     # Return existing ID if found
     if name_key in registry:
@@ -54,9 +57,12 @@ def get_or_create_uuid(item_name: str) -> str:
     # Create new ID and save immediately
     new_id = str(uuid.uuid4())
     registry[name_key] = new_id
+    pantry_data['item_registry'] = registry # Update registry in data object
+
+    # We save immediately to ensure consistency
     try:
-        with open(DB_FILE, "w") as f:
-            json.dump(registry, f, indent=4)
+        with open(PANTRY_STATE_FILE, "w") as f:
+            json.dump(pantry_data, f, indent=4)
     except IOError as e:
         print(f"Warning: Could not save registry: {e}")
     
@@ -139,12 +145,23 @@ def analyze_pantry_images(before_bytes: bytes, after_bytes: bytes) -> PantryInve
         current_full_inventory=processed_full
     )
 
-    # Save to pantry state file
+    # Load existing state to preserve item_registry
+    existing_data = {}
+    if os.path.exists(PANTRY_STATE_FILE):
+         with open(PANTRY_STATE_FILE, "r") as f:
+            try:
+                existing_data = json.load(f)
+            except:
+                pass
+
+    # Save to pantry state file, preserving registry
     pantry_state_payload = {
         "items_added": [i.dict() for i in processed_added],
         "items_removed": [i.name for i in processed_removed],
-        "current_full_inventory": [i.dict() for i in processed_full]
+        "current_full_inventory": [i.dict() for i in processed_full],
+        "item_registry": existing_data.get("item_registry", {})
     }
+    
     with open(PANTRY_STATE_FILE, "w") as f:
         json.dump(pantry_state_payload, f, indent=4)
 

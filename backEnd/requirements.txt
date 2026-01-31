@@ -1,0 +1,50 @@
+annotated-types @ file:///home/conda/feedstock_root/build_artifacts/annotated-types_1733247046149/work
+anyio==4.12.1
+blinker @ file:///home/conda/feedstock_root/build_artifacts/blinker_1731096409132/work
+certifi==2026.1.4
+cffi==2.0.0
+charset-normalizer==3.4.4
+click @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_click_1764518652/work
+cryptography==46.0.4
+distro==1.9.0
+filetype==1.2.0
+Flask @ file:///home/conda/feedstock_root/build_artifacts/flask_1755674618058/work
+Flask-Cors @ file:///home/conda/feedstock_root/build_artifacts/flask_cors_1718399065232/work
+google-auth==2.48.0
+google-genai==1.61.0
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.11
+importlib_metadata @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_importlib-metadata_1747934053/work
+itsdangerous @ file:///home/conda/feedstock_root/build_artifacts/itsdangerous_1733308265247/work
+Jinja2 @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_jinja2_1764517220/work
+jsonpatch==1.33
+jsonpointer==3.0.0
+langchain-core==1.2.7
+langchain-google-genai==4.2.0
+langsmith==0.6.7
+MarkupSafe @ file:///home/conda/feedstock_root/build_artifacts/markupsafe_1759055168238/work
+orjson==3.11.6
+packaging==25.0
+pyasn1==0.6.2
+pyasn1_modules==0.4.2
+pycparser==3.0
+pydantic @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pydantic_1764434463/work
+pydantic_core @ file:///Users/runner/miniforge3/conda-bld/bld/rattler-build_pydantic-core_1762989019/work
+PyYAML==6.0.3
+requests==2.32.5
+requests-toolbelt==1.0.0
+rsa==4.9.1
+six @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_six_1753199211/work
+sniffio==1.3.1
+tenacity==9.1.2
+typing-inspection @ file:///home/conda/feedstock_root/build_artifacts/typing-inspection_1764158251755/work
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_typing_extensions_1756220668/work
+urllib3==2.6.3
+uuid_utils==0.14.0
+websockets==15.0.1
+Werkzeug @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_werkzeug_1767946313/work
+xxhash==3.6.0
+zipp @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_zipp_1764460141/work
+zstandard==0.25.0

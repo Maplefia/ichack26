@@ -1,0 +1,216 @@
+/* Main container */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 12vh;
+}
+
+.pageName {
+    margin-top: 20%;
+    position: relative;
+    top: 20%;
+}
+
+/* Section styling */
+.section {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    border-left: 4px solid rgba(239, 20, 96, 0.7);
+}
+
+.section h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+/* Dropdown and toggles */
+.dropdownContainer {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.dropdownButton {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgba(239, 20, 96, 1);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.dropdownButton:hover {
+    background-color: rgb(217, 7, 81);
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.dropdownItem:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdownItem:last-child {
+    border-bottom: none;
+}
+
+.dropdownItem input {
+    margin-right: 0.75rem;
+    cursor: pointer;
+}
+
+.dropdownItem label {
+    flex: 1;
+    cursor: pointer;
+    margin: 0;
+}
+
+.selectedAllergens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.allergenTag {
+    background-color: rgba(244, 59, 124, 0.7);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.allergenTag button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    line-height: 1;
+}
+
+.allergenTag button:hover {
+    opacity: 0.8;
+}
+
+/* Add custom allergen */
+.addCustomContainer {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.addCustomContainer input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.addCustomContainer button {
+    padding: 0.5rem 1rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s ease;
+}
+
+.addCustomContainer button:hover {
+    background-color: #218838;
+}
+
+/* Expiry warning settings */
+.settingRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+}
+
+.settingLabel {
+    font-weight: 500;
+    color: #333;
+}
+
+.settingInput {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.settingInput input {
+    width: 60px;
+    padding: 0.4rem;
+    border: 1px solid #ddd;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem 0.5rem;
+        gap: 1.5rem;
+    }
+
+    .section {
+        padding: 1rem;
+    }
+
+    .settingRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .settingInput {
+        width: 100%;
+    }
+
+    .settingInput input {
+        width: 80px;
+    }
+}

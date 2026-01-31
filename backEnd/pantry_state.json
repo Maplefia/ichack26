@@ -1,38 +1,80 @@
 {
-    "items_added": [],
-    "items_removed": [
-        "Oreo Original 6x"
+    "items_added": [
+        {
+            "id": "beac9e44-86fd-4bf0-ac97-f158f3bccc97",
+            "name": "Oreo Original Biscuits",
+            "expiry_date": "2026-10-31"
+        }
     ],
+    "items_removed": [],
     "current_full_inventory": [
         {
-            "id": "6351f791-bccc-4ce5-84bd-ab135d57d2b8",
+            "id": "beac9e44-86fd-4bf0-ac97-f158f3bccc97",
+            "name": "Oreo Original Biscuits",
+            "expiry_date": "2026-10-31"
+        },
+        {
+            "id": "6017e071-17b8-4e10-a06c-645c6ce4e7c1",
             "name": "Coca-Cola Original Taste 330ml",
-            "expiry_date": "2026-08-31"
-        },
-        {
-            "id": "096483e7-66f9-4eba-9f35-d40a57a98f65",
-            "name": "Walkers Crisps",
-            "expiry_date": "2026-05-31"
-        },
-        {
-            "id": "50b895a4-5c24-40b6-9acc-b75f6938d274",
-            "name": "Nestl\u00e9 Smarties 3x",
-            "expiry_date": "2026-11-30"
-        },
-        {
-            "id": "7766feea-b4f1-4439-a7ca-48447f12f52f",
-            "name": "KitKat Orange",
-            "expiry_date": "2026-11-30"
-        },
-        {
-            "id": "ebf4434d-7dad-4435-89a7-ff9aa7dac34b",
-            "name": "Spearmint Chews",
             "expiry_date": "2027-01-31"
         },
         {
-            "id": "7177cf5a-d174-409d-9c06-551c4e956d3d",
+            "id": "7e2009d0-09dd-4ffb-9316-84a3010a372f",
+            "name": "Walkers Quavers",
+            "expiry_date": "2026-06-30"
+        },
+        {
+            "id": "ab31e22b-ce8e-4248-8fb7-27916e405b66",
+            "name": "Nestle Smarties",
+            "expiry_date": "2027-01-31"
+        },
+        {
+            "id": "304f5c71-7938-4bb5-b0ea-c643ef2c9f95",
+            "name": "Mentos Spearmint",
+            "expiry_date": "2027-12-31"
+        },
+        {
+            "id": "80844f45-364a-4f57-89a6-94eac2e18675",
+            "name": "Snack Mindful Multipack",
+            "expiry_date": "2026-07-31"
+        },
+        {
+            "id": "1d113757-3d94-498d-b996-c5ba538f47fa",
             "name": "Orange Lollipop",
+            "expiry_date": "2027-12-31"
+        },
+        {
+            "id": "f3bb6ab7-a832-4086-aae2-89d81d51945f",
+            "name": "Orange Fruit Chew",
             "expiry_date": "2027-01-31"
+        },
+        {
+            "id": "3ad4c319-fff7-4577-955f-e2cbf16ca901",
+            "name": "Green and Yellow Fruit Chew",
+            "expiry_date": "2027-01-31"
+        },
+        {
+            "name": "B",
+            "expiry_date": "2026-02-01",
+            "id": "18e08b24-cbb4-4576-8f85-369fa4ab66c6",
+            "date_added": "2026-01-31"
+        },
+        {
+            "name": "A",
+            "expiry_date": "2026-01-31",
+            "id": "7d24ab44-6e74-4d96-9283-9c6fdb4764a5",
+            "date_added": "2026-01-31"
         }
-    ]
+    ],
+    "item_registry": {
+        "oreo original biscuits": "beac9e44-86fd-4bf0-ac97-f158f3bccc97",
+        "coca-cola original taste 330ml": "6017e071-17b8-4e10-a06c-645c6ce4e7c1",
+        "walkers quavers": "7e2009d0-09dd-4ffb-9316-84a3010a372f",
+        "nestle smarties": "ab31e22b-ce8e-4248-8fb7-27916e405b66",
+        "mentos spearmint": "304f5c71-7938-4bb5-b0ea-c643ef2c9f95",
+        "snack mindful multipack": "80844f45-364a-4f57-89a6-94eac2e18675",
+        "orange lollipop": "1d113757-3d94-498d-b996-c5ba538f47fa",
+        "orange fruit chew": "f3bb6ab7-a832-4086-aae2-89d81d51945f",
+        "green and yellow fruit chew": "3ad4c319-fff7-4577-955f-e2cbf16ca901"
+    }
 }
