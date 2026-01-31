@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantry Tracker Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .upload-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        input[type="file"] { margin: 10px 0; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .results { margin: 20px 0; padding: 20px; background: #f8f9fa; }
+        .loading { color: #666; font-style: italic; }
+        .error { color: red; }
+        .success { color: green; }
+        pre { background: #f1f1f1; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Pantry Tracker Test</h1>
+    
+    <div class="upload-section">
+        <h3>Upload Before and After Images</h3>
+        <div>
+            <label>Before Image:</label>
+            <input type="file" id="beforeImage" accept="image/*" required>
+        </div>
+        <div>
+            <label>After Image:</label>
+            <input type="file" id="afterImage" accept="image/*" required>
+        </div>
+        <button onclick="analyzePantry()">Analyze Pantry Changes</button>
+    </div>
+
+    <div id="results" class="results" style="display: none;">
+        <h3>Analysis Results</h3>
+        <div id="resultContent"></div>
+    </div>
+
+    <div class="upload-section">
+        <h3>Current Inventory</h3>
+        <button onclick="loadInventory()">Load Current Inventory</button>
+        <div id="inventory" style="display: none;">
+            <h4>Inventory Items:</h4>
+            <div id="inventoryContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5001';
+
+        async function analyzePantry() {
+            const beforeFile = document.getElementById('beforeImage').files[0];
+            const afterFile = document.getElementById('afterImage').files[0];
+            
+            if (!beforeFile || !afterFile) {
+                alert('Please select both before and after images');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('before_image', beforeFile);
+            formData.append('after_image', afterFile);
+
+            const resultsDiv = document.getElementById('results');
+            const resultContent = document.getElementById('resultContent');
+            
+            resultsDiv.style.display = 'block';
+            resultContent.innerHTML = '<div class="loading">Analyzing images... This may take a moment.</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/analyze_pantry`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultContent.innerHTML = `
+                        <div class="success">Analysis completed successfully!</div>
+                        <h4>Items Added (${data.items_added ? data.items_added.length : 0}):</h4>
+                        <pre>${JSON.stringify(data.items_added || [], null, 2)}</pre>
+                        
+                        <h4>Items Removed (${data.items_removed ? data.items_removed.length : 0}):</h4>
+                        <pre>${JSON.stringify(data.items_removed || [], null, 2)}</pre>
+                        
+                        <h4>Current Full Inventory (${data.current_full_inventory ? data.current_full_inventory.length : 0}):</h4>
+                        <pre>${JSON.stringify(data.current_full_inventory || [], null, 2)}</pre>
+                    `;
+                } else {
+                    resultContent.innerHTML = `<div class="error">Error: ${data.error || 'Unknown error'}</div>`;
+                }
+            } catch (error) {
+                resultContent.innerHTML = `<div class="error">Network Error: ${error.message}</div>`;
+            }
+        }
+
+        async function loadInventory() {
+            const inventoryDiv = document.getElementById('inventory');
+            const inventoryContent = document.getElementById('inventoryContent');
+            
+            inventoryDiv.style.display = 'block';
+            inventoryContent.innerHTML = '<div class="loading">Loading inventory...</div>';
+
+            try {
+                const response = await fetch(`${API_BASE}/api/inventory`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    inventoryContent.innerHTML = `
+                        <div class="success">Loaded ${data.length} items</div>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                } else {
+                    inventoryContent.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                }
+            } catch (error) {
+                inventoryContent.innerHTML = `<div class="error">Network Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

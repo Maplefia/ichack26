@@ -1,56 +1,80 @@
 {
-    "items_added": [],
-    "items_removed": [
-        "Oreo Original pack"
+    "items_added": [
+        {
+            "id": "beac9e44-86fd-4bf0-ac97-f158f3bccc97",
+            "name": "Oreo Original Biscuits",
+            "expiry_date": "2026-10-31"
+        }
     ],
+    "items_removed": [],
     "current_full_inventory": [
         {
-            "id": "61872535-c9e4-4201-b77c-5d8706d91139",
-            "name": "330ml Coke Original Taste",
-            "expiry_date": "2026-10-31",
-            "date_added": "2026-01-31"
+            "id": "beac9e44-86fd-4bf0-ac97-f158f3bccc97",
+            "name": "Oreo Original Biscuits",
+            "expiry_date": "2026-10-31"
         },
         {
-            "id": "d2da5e49-d5ec-4811-8cf0-9fc4c6908a42",
-            "name": "Walkers Crisps",
-            "expiry_date": "2026-05-31",
-            "date_added": "2026-01-31"
+            "id": "6017e071-17b8-4e10-a06c-645c6ce4e7c1",
+            "name": "Coca-Cola Original Taste 330ml",
+            "expiry_date": "2027-01-31"
         },
         {
-            "id": "2b4962a8-61d0-4fba-b359-d6b5bc39da58",
-            "name": "Green Skinny Snack Bar",
-            "expiry_date": "2026-08-31",
-            "date_added": "2026-01-31"
+            "id": "7e2009d0-09dd-4ffb-9316-84a3010a372f",
+            "name": "Walkers Quavers",
+            "expiry_date": "2026-06-30"
         },
         {
-            "id": "cf0150f2-3a2a-451f-8858-2a9bf712b0fe",
-            "name": "Orange Mini Snack Cake",
-            "expiry_date": "2026-07-31",
-            "date_added": "2026-01-31"
+            "id": "ab31e22b-ce8e-4248-8fb7-27916e405b66",
+            "name": "Nestle Smarties",
+            "expiry_date": "2027-01-31"
         },
         {
-            "id": "c73f057c-8ea1-4443-994a-5716692cc584",
+            "id": "304f5c71-7938-4bb5-b0ea-c643ef2c9f95",
+            "name": "Mentos Spearmint",
+            "expiry_date": "2027-12-31"
+        },
+        {
+            "id": "80844f45-364a-4f57-89a6-94eac2e18675",
+            "name": "Snack Mindful Multipack",
+            "expiry_date": "2026-07-31"
+        },
+        {
+            "id": "1d113757-3d94-498d-b996-c5ba538f47fa",
             "name": "Orange Lollipop",
-            "expiry_date": "2027-01-31",
+            "expiry_date": "2027-12-31"
+        },
+        {
+            "id": "f3bb6ab7-a832-4086-aae2-89d81d51945f",
+            "name": "Orange Fruit Chew",
+            "expiry_date": "2027-01-31"
+        },
+        {
+            "id": "3ad4c319-fff7-4577-955f-e2cbf16ca901",
+            "name": "Green and Yellow Fruit Chew",
+            "expiry_date": "2027-01-31"
+        },
+        {
+            "name": "B",
+            "expiry_date": "2026-02-01",
+            "id": "18e08b24-cbb4-4576-8f85-369fa4ab66c6",
             "date_added": "2026-01-31"
         },
         {
-            "id": "69273ebd-07a8-4e40-bbc9-691c93841d03",
-            "name": "Nestle Smarties Tube",
-            "expiry_date": "2027-01-31",
-            "date_added": "2026-01-31"
-        },
-        {
-            "id": "e7d50722-4074-4b8b-a4f0-9c7370e8a6d5",
-            "name": "Mindfully Snackful Bar",
-            "expiry_date": "2026-09-30",
-            "date_added": "2026-01-31"
-        },
-        {
-            "name": "q",
+            "name": "A",
             "expiry_date": "2026-01-31",
-            "id": "6b2afaab-b84a-46f0-a3fe-a58f01e6a7c2",
+            "id": "7d24ab44-6e74-4d96-9283-9c6fdb4764a5",
             "date_added": "2026-01-31"
         }
-    ]
+    ],
+    "item_registry": {
+        "oreo original biscuits": "beac9e44-86fd-4bf0-ac97-f158f3bccc97",
+        "coca-cola original taste 330ml": "6017e071-17b8-4e10-a06c-645c6ce4e7c1",
+        "walkers quavers": "7e2009d0-09dd-4ffb-9316-84a3010a372f",
+        "nestle smarties": "ab31e22b-ce8e-4248-8fb7-27916e405b66",
+        "mentos spearmint": "304f5c71-7938-4bb5-b0ea-c643ef2c9f95",
+        "snack mindful multipack": "80844f45-364a-4f57-89a6-94eac2e18675",
+        "orange lollipop": "1d113757-3d94-498d-b996-c5ba538f47fa",
+        "orange fruit chew": "f3bb6ab7-a832-4086-aae2-89d81d51945f",
+        "green and yellow fruit chew": "3ad4c319-fff7-4577-955f-e2cbf16ca901"
+    }
 }

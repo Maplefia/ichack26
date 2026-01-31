@@ -5,11 +5,11 @@ import os
 import socket
 import uuid
 import datetime
+from pantry_analyzer import analyze_pantry_images
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# UUID registry for consistent item IDs
 PANTRY_STATE_FILE = os.path.join(os.path.dirname(__file__), 'pantry_state.json')
 
 def get_or_create_uuid(item_name: str) -> str:
@@ -20,7 +20,10 @@ def get_or_create_uuid(item_name: str) -> str:
     pantry_data = {}
     if os.path.exists(PANTRY_STATE_FILE):
         with open(PANTRY_STATE_FILE, "r") as f:
-            pantry_data = json.load(f)
+            try:
+                pantry_data = json.load(f)
+            except json.JSONDecodeError:
+                pantry_data = {}
     
     # Get or create item_registry within pantry_state
     registry = pantry_data.get('item_registry', {})
@@ -38,6 +41,7 @@ def get_or_create_uuid(item_name: str) -> str:
     
     return new_id
 
+# region endpoints
 @app.route('/api/bots', methods=['GET'])
 def get_bots():
     try:
@@ -54,7 +58,7 @@ def get_bots():
         return jsonify({'error': 'Invalid JSON format'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
+
 @app.route('/api/recipes', methods=['POST'])
 def recipe_handler():
     try:
@@ -69,9 +73,8 @@ def recipe_handler():
 def add_inventory_item():
     try: 
         new_item = request.get_json()
-        json_path = os.path.join(os.path.dirname(__file__), 'pantry_state.json')
         
-        with open(json_path, 'r') as file:
+        with open(PANTRY_STATE_FILE, 'r') as file:
             pantry_data = json.load(file)
         current_inventory = pantry_data.get('current_full_inventory', [])
         
@@ -82,20 +85,17 @@ def add_inventory_item():
         current_inventory.append(new_item)
         pantry_data['current_full_inventory'] = current_inventory
         
-        with open(json_path, 'w') as file:
+        with open(PANTRY_STATE_FILE, 'w') as file:
             json.dump(pantry_data, file, indent=4)
         
         return jsonify(new_item), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 @app.route('/api/inventory/<item_id>', methods=['DELETE'])
 def delete_inventory_item(item_id):
     try:
-        json_path = os.path.join(os.path.dirname(__file__), 'pantry_state.json')
-        
-        with open(json_path, 'r') as file:
+        with open(PANTRY_STATE_FILE, 'r') as file:
             pantry_data = json.load(file)
         
         current_inventory = pantry_data.get('current_full_inventory', [])
@@ -104,20 +104,17 @@ def delete_inventory_item(item_id):
             return jsonify({'error': 'Item not found'}), 404
         pantry_data['current_full_inventory'] = updated_inventory
         
-        with open(json_path, 'w') as file:
+        with open(PANTRY_STATE_FILE, 'w') as file:
             json.dump(pantry_data, file, indent=4)
         
         return jsonify({'message': 'Item deleted successfully'}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-
 @app.route('/api/inventory', methods=['GET'])
 def get_inventory():
     try:
-        json_path = os.path.join(os.path.dirname(__file__), 'pantry_state.json')
-        
-        with open(json_path, 'r') as file:
+        with open(PANTRY_STATE_FILE, 'r') as file:
             pantry_data = json.load(file)
         
         inventory = pantry_data.get('current_full_inventory', [])
@@ -128,10 +125,36 @@ def get_inventory():
         return jsonify({'error': 'Invalid JSON format'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
-    
+# endregion
 
+# region pantry ana
+@app.route("/api/analyze_pantry", methods=["POST"])
+def analyze_pantry():
+    """
+    Endpoint to analyze pantry changes from before/after images.
+    Expects multipart/form-data with 'before_image' and 'after_image' files.
+    """
+    try:
+        if "before_image" not in request.files or "after_image" not in request.files:
+            return jsonify({"error": "Missing before_image or after_image"}), 400
 
+        before_image = request.files["before_image"]
+        after_image = request.files["after_image"]
+
+        before_bytes = before_image.read()
+        after_bytes = after_image.read()
+
+        # Use the analyzer module
+        response = analyze_pantry_images(before_bytes, after_bytes)
+
+        return jsonify(response.dict()), 200
+
+    except Exception as e:
+        print(f"Error in analyze_pantry: {e}")
+        return jsonify({"error": str(e)}), 500
+# endregion
+
+# region server nom
 def get_local_ip():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -148,5 +171,12 @@ if __name__ == '__main__':
     print(f"Server starting on:")
     print(f"  Local:   http://localhost:5001/api/bots")
     print(f"  Network: http://{local_ip}:5001/api/bots")
+    print(f"\nAvailable endpoints:")
+    print(f"  GET  /api/bots")
+    print(f"  POST /api/recipes")
+    print(f"  GET  /api/inventory")
+    print(f"  POST /api/inventory (Add Item)")
+    print(f"  DEL  /api/inventory/<id> (Delete Item)")
+    print(f"  POST /api/analyze_pantry")
     print(f"{'='*50}\n")
     app.run(debug=True, host='0.0.0.0', port=5001)
