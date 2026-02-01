@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
+import time
 from flask_cors import CORS
 import json
 import os
@@ -264,45 +265,45 @@ def analyze_pantry():
         print(f"Error in analyze_pantry: {e}")
         return jsonify({"error": str(e)}), 500
     
-# @app.route('/api/frame', methods=['POST'])
-# def receive_frame():
-#     """
-#     ESP32 sends raw JPEG bytes here. We store them in a global variable.
-#     """
-#     global latest_frame
-#     try:
-#         # request.data contains the raw bytes (the image)
-#         if request.data:
-#             latest_frame = request.data
-#             # print(f"Received frame: {len(latest_frame)} bytes") # Debug
-#             return jsonify({'status': 'Frame updated'}), 200
-#         else:
-#             return jsonify({'error': 'No data received'}), 400
-#     except Exception as e:
-#         print(f"Error receiving frame: {e}")
-#         return jsonify({'error': str(e)}), 500
+@app.route('/api/frame', methods=['POST'])
+def receive_frame():
+    """
+    ESP32 sends raw JPEG bytes here. We store them in a global variable.
+    """
+    global latest_frame
+    try:
+        # request.data contains the raw bytes (the image)
+        if request.data:
+            latest_frame = request.data
+            # print(f"Received frame: {len(latest_frame)} bytes") # Debug
+            return jsonify({'status': 'Frame updated'}), 200
+        else:
+            return jsonify({'error': 'No data received'}), 400
+    except Exception as e:
+        print(f"Error receiving frame: {e}")
+        return jsonify({'error': str(e)}), 500
 
-# def generate_frames():
-#     """
-#     Generator function that yields the latest frame in MJPEG format.
-#     """
-#     while True:
-#         if latest_frame: #latest_capture
-#             # MJPEG format requires boundaries between frames
-#             yield (b'--frame\r\n'
-#                    b'Content-Type: image/jpeg\r\n\r\n' + latest_frame + b'\r\n')
+def generate_frames():
+    """
+    Generator function that yields the latest frame in MJPEG format.
+    """
+    while True:
+        if prev_capture: #latest_capture
+            # MJPEG format requires boundaries between frames
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + latest_frame + b'\r\n')
         
-#         # Sleep briefly to avoid 100% CPU usage loop
-#         # The ESP32 sends frames every ~800ms, so 0.1s check is fine
-#         time.sleep(0.1)
+        # Sleep briefly to avoid 100% CPU usage loop
+        # The ESP32 sends frames every ~800ms, so 0.1s check is fine
+        time.sleep(0.1)
 
-# @app.route('/video_feed')
-# def video_feed():
-#     """
-#     The browser <img> tag will point here.
-#     """
-#     return Response(generate_frames(),
-#                     mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/video_feed')
+def video_feed():
+    """
+    The browser <img> tag will point here.
+    """
+    return Response(generate_frames(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/api/capture', methods=['POST'])
 def receive_capture():
@@ -363,6 +364,63 @@ def view_stream():
         <body>
             <h1>Pantry Bot Live Stream</h1>
             <img src="/video_feed" />
+        </body>
+    </html>
+    """
+    return html
+
+@app.route('/latest_image')
+def latest_image():
+    """
+    Serves the most recent capture as a JPEG image.
+    """
+    if prev_capture:
+        return Response(prev_capture, mimetype='image/jpeg')
+    else:
+        return jsonify({'error': 'No capture available yet'}), 404
+
+@app.route('/latest')
+def latest():
+    """
+    A simple HTML page to display the most recent capture.
+    """
+    html = """
+    <html>
+        <head>
+            <title>Latest Pantry Capture</title>
+            <style>
+                body { 
+                    background-color: #222; 
+                    color: white; 
+                    text-align: center; 
+                    font-family: sans-serif; 
+                    padding: 20px;
+                }
+                img { 
+                    border: 2px solid #555; 
+                    max-width: 90%; 
+                    height: auto; 
+                    margin-top: 20px;
+                }
+                button {
+                    background-color: #555;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    margin-top: 20px;
+                }
+                button:hover {
+                    background-color: #777;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Latest Pantry Capture</h1>
+            <button onclick="location.reload()">Refresh</button>
+            <br>
+            <img src="/latest_image" id="latestImg" onerror="this.alt='No capture available yet'"/>
         </body>
     </html>
     """

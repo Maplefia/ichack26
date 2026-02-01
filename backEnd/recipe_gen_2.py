@@ -7,7 +7,7 @@ from langchain_core.output_parsers import PydanticOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 
-os.environ["GOOGLE_API_KEY"] = "AIzaSyAwIoGRwglzqSWMlP9kilaCBUWyUp6P4HI"
+os.environ["GOOGLE_API_KEY"] = os.environ.get("GEMINI_API_KEY", "")
 
 # --- 1. Define Pydantic Models for Structured Output ---
 class RecipeIngredient(BaseModel):
