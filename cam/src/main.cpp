@@ -648,7 +648,7 @@ static esp_err_t stream_handler(httpd_req_t *req) {
         Serial.printf("Dist: %.1f cm (baseline=%.1f stage=%d)\n", d, g_baseline_cm, g_stage);
 
         if ((now - g_last_capture_ms) > CAPTURE_COOLDOWN_MS && should_trigger_capture(d)) {
-          delay(2000); // small delay to allow scene to stabilise
+          delay(3000); // small delay to allow scene to stabilise
           if (counter == 0){
           camera_fb_t *snap = esp_camera_fb_get();
           if (snap) {
@@ -831,7 +831,7 @@ void loop() {
     last = millis();
 
     // TODO: replace with real battery reading if you have one
-    float fakeBattery = 1.0f - (float)(millis() % 600000) / 600000.0f; // drains over 10min
+    float fakeBattery = (1.0f - (float)(millis() % 600000) / 600000.0f)*100; // drains over 10min
 
     postBotStatus("Connected", fakeBattery);
   }
