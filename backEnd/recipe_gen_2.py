@@ -103,8 +103,9 @@ def generate_recipes(
             (
                 "system",
                 "You are an expert culinary assistant. "
-                "Your task is to suggest 5 unique and creative recipe names along with their key ingredients. "
-                "Prioritize using the provided pantry ingredients. "
+                "Your task is to suggest 5 realistic recipe names along with their key ingredients. "
+                "The recipes should be common and fairly easy to make."
+                "Prioritize using the provided pantry ingredients, but you do not need to use all of them. "
                 "Strictly avoid any ingredients that the user is allergic to. "
                 "Ensure the recipes are actionable with the available pantry items, but you can suggest a few common additions. "
                 "Output the recipes in a JSON format that matches the following schema:\n{format_instructions}"
