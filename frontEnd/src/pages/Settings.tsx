@@ -57,8 +57,12 @@ export default function Settings() {
 
     const handleExpiryWarningChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Math.max(1, parseInt(e.target.value) || DEFAULT_EXPIRY_WARNING_DAYS);
+        console.log("Changed expiry warning to ", value)
         setExpiryWarningDays(value);
         localStorage.setItem('expiryWarningDays', value.toString());
+        
+        // Dispatch custom event to notify other components
+        window.dispatchEvent(new Event('settingsChanged'));
     };
 
     return (

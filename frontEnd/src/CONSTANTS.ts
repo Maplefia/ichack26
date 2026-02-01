@@ -1,1 +1,1 @@
-export const backendServer =  "localhost:5001"//"10.148.130.160"
+export const backendServer =  "10.156.119.134:5001"//"10.84.118.237:5001"

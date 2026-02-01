@@ -5,9 +5,14 @@ import Inventory from "./pages/Inventory"
 import Settings from "./pages/Settings"
 import Recipe from "./pages/Recipe"
 import Bots from "./pages/Bots"
-
+import { checkExpiryAndNotify } from "./utils/Notifications"
+import { useEffect } from "react"
 
 export default function App() {
+
+  useEffect(() => {
+        checkExpiryAndNotify();
+    }, []);
 
   return (
     <Routes>

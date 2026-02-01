@@ -66,19 +66,24 @@ function isValidDate(dateString: string): boolean {
     return !isNaN(date.getTime())
 }
 
-// Check if expiry date is within 3 days
-function isExpiringWithin3Days(expiryDateString: string): boolean {
+// Check if expiry date is within warning threshold
+function isExpiringSoon(expiryDateString: string, warningDays: number): boolean {
     const expiryDate = new Date(expiryDateString);
+    expiryDate.setHours(0, 0, 0, 0);
     const today = new Date();
-    const threeDaysFromNow = new Date(today.getTime() + 3 * 24 * 60 * 60 * 1000);
-    return expiryDate <= threeDaysFromNow && expiryDate > today;
+    today.setHours(0, 0, 0, 0);
+    const warningDate = new Date(today.getTime() + warningDays * 24 * 60 * 60 * 1000);
+    console.log("CHECK:", warningDate, today, expiryDate)
+    return expiryDate <= warningDate && expiryDate >= today;
 }
 
 // Check if expired
 function isExpired(expiryDateString: string): boolean {
     const expiryDate = new Date(expiryDateString);
+    expiryDate.setHours(0, 0, 0, 0);
     const today = new Date();
-    return expiryDate <= today;
+    today.setHours(0, 0, 0, 0);
+    return expiryDate < today;
 }
 
 function AddItemPopup({ isOpen, onClose, onAdd }: {
@@ -151,18 +156,18 @@ function AddItemPopup({ isOpen, onClose, onAdd }: {
     );
 }
 
-function InventoryRow({ inventoryProps, onDelete }: {
+function InventoryRow({ inventoryProps, onDelete, warningDays }: {
     inventoryProps: InventoryCardType;
     onDelete: (id: string) => void;
+    warningDays: number;
 }) {
     const expired = isExpired(inventoryProps.expiry_date);
-    const expiring = !expired && isExpiringWithin3Days(inventoryProps.expiry_date);
+    const expiring = !expired && isExpiringSoon(inventoryProps.expiry_date, warningDays);
+    console.log(inventoryProps.name, expiring)
     const expiryClass = expired ? styles.expired : (expiring ? styles.warning : '');
 
     const handleDelete = () => {
-        if (confirm(`Are you sure you want to delete "${inventoryProps.name}"?`)) {
-            onDelete(inventoryProps.id);
-        }
+        onDelete(inventoryProps.id)
     };
 
     return (
@@ -185,9 +190,24 @@ export default function Inventory() {
     const [sortKey, setSortKey] = useState<SortKey>('name');
     const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [warningDays, setWarningDays] = useState(parseInt(localStorage.getItem('expiryWarningDays') || '3'));
 
     useEffect(() => {
         fetchInventoryFromAPI().then(data => setInventory(data))
+        
+        // Listen for storage changes to update warning days
+        const handleStorageChange = () => {
+            const newWarningDays = parseInt(localStorage.getItem('expiryWarningDays') || '3');
+            setWarningDays(newWarningDays);
+        };
+        
+        window.addEventListener('storage', handleStorageChange);
+        window.addEventListener('settingsChanged', handleStorageChange);
+        
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('settingsChanged', handleStorageChange);
+        };
     }, [])
 
     const handleAddItem = async (item: { name: string; expiry_date: string }) => {
@@ -269,6 +289,7 @@ export default function Inventory() {
                                 key={item.id} 
                                 inventoryProps={item} 
                                 onDelete={handleDeleteItem}
+                                warningDays={warningDays}
                             />
                         ))}
                     
