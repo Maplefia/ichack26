@@ -9,6 +9,20 @@ interface Recipe {
     ingredients: string[];
 }
 
+function RecipeCard({ recipe }: { recipe: Recipe }) {
+    return (
+        <div className={styles.recipeCard}>
+            <h3 className={styles.recipeName}>{recipe.name}</h3>
+            <h4 className={styles.ingredientsTitle}>Key Ingredients:</h4>
+            <ul className={styles.ingredientsList}>
+                {recipe.ingredients.map((ingredient, ingIndex) => (
+                    <li key={ingIndex}>{ingredient}</li>
+                ))}
+            </ul>
+        </div>
+    )
+}
+
 // Function to fetch recipes from the backend API
 async function fetchRecipesFromAPI(allergens: string[]): Promise<Recipe[]> {
     try {
@@ -59,42 +73,33 @@ export default function Recipe() {
     }, [allergens]); // Re-run effect if allergens change
 
     return (
-        <div>
+        <div className={styles.container}>
             <h1 className={styles.pageName}>Recipes</h1>
 
-            <h2>Your Allergens:</h2>
-            {allergens.length > 0 ? (
-                <ul>
-                    {allergens.map((allergen, index) => (
-                        <li key={index}>{allergen}</li> // Using index as key for now, if allergens can be duplicated, consider a better key
-                    ))}
-                </ul>
-            ) : (
-                <p>No allergens selected. Go to Settings to add them.</p>
-            )}
+            <div className={styles.allergensSection}>
+                <h2>Your Allergens:</h2>
+                {allergens.length > 0 ? (
+                    <ul className={styles.allergensList}>
+                        {allergens.map((allergen, index) => (
+                            <li key={index}>{allergen}</li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No allergens selected. Go to Settings to add them.</p>
+                )}
+            </div>
 
-            <h2>Recipes:</h2>
+            <h2 className={styles.recipesTitle} className={styles.recipesTitle}>Recipes:</h2>
             {recipes === null ? (
-                // Display a loading message while recipes are being fetched
-                <p>Loading recipes...</p>
+                <p className={styles.loadingText}>Loading recipes...</p>
             ) : recipes.length > 0 ? (
-                // If recipes are found, map and display them
-                <div>
+                <div className={styles.recipesGrid}>
                     {recipes.map((recipe, index) => (
-                        <div key={index} className={styles.recipeCard}>
-                            <h3>{recipe.name}</h3>
-                            <h4>Key Ingredients:</h4>
-                            <ul>
-                                {recipe.ingredients.map((ingredient, ingIndex) => (
-                                    <li key={ingIndex}>{ingredient}</li>
-                                ))}
-                            </ul>
-                        </div>
+                        <RecipeCard key={index} recipe={recipe} />
                     ))}
                 </div>
             ) : (
-                // If no recipes are found (empty array after loading)
-                <p>No recipes found with your current pantry items and allergies.</p>
+                <p className={styles.noRecipes}>No recipes found with your current pantry items and allergies.</p>
             )}
         </div>
     );

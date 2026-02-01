@@ -54,27 +54,15 @@
             "expiry_date": "2027-01-31"
         },
         {
-            "name": "B",
-            "expiry_date": "2026-02-01",
-            "id": "18e08b24-cbb4-4576-8f85-369fa4ab66c6",
-            "date_added": "2026-01-31"
-        },
-        {
-            "name": "A",
-            "expiry_date": "2026-01-31",
-            "id": "7d24ab44-6e74-4d96-9283-9c6fdb4764a5",
-            "date_added": "2026-01-31"
-        },
-        {
-            "name": "D",
-            "expiry_date": "2026-03-03",
-            "id": "5912befc-00f7-4596-9d06-b8022c82e622",
+            "name": "Spaghetti packet 500g",
+            "expiry_date": "2026-06-14",
+            "id": "8d65df7f-4fea-4263-8c5e-672c6ed6d1fd",
             "date_added": "2026-02-01"
         },
         {
-            "name": "C",
-            "expiry_date": "2026-02-02",
-            "id": "49c460a1-0841-4bbe-b6e3-1b3bd706b450",
+            "name": "Tinned tomatoes 500g",
+            "expiry_date": "2026-09-13",
+            "id": "bce47550-9a3a-4e28-ba01-db392ae63dc1",
             "date_added": "2026-02-01"
         }
     ],

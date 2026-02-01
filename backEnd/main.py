@@ -61,6 +61,18 @@ def analyze_pantry_thread(before_img, after_img):
         
     except Exception as e:
         print(f"Error in pantry analysis thread: {e}")
+        
+def create_pantry_state_if_not_exists():
+    if not os.path.exists(PANTRY_STATE_FILE):
+        initial_pantry_data = {
+            "item_registry": {},
+            "items_added": [],
+            "items_removed": [],
+            "current_full_inventory": []
+        }
+        with open(PANTRY_STATE_FILE, "w") as f:
+            json.dump(initial_pantry_data, f, indent=4)
+        print(f"Created initial {PANTRY_STATE_FILE}")
 
 # region endpoints
 @app.route('/api/bots', methods=['GET', 'POST'])
