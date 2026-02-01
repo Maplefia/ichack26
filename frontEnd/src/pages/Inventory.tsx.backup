@@ -47,6 +47,7 @@ async function addInventoryItem(item: Omit<InventoryCardType, 'id' | 'date_added
 }
 
 async function deleteInventoryItem(id: string) {
+    console.log("pressed")
     try {
         const response = await fetch(`http://${backendServer}/api/inventory/${id}`, {
             method: 'DELETE'
@@ -73,8 +74,11 @@ function isExpiringSoon(expiryDateString: string, warningDays: number): boolean 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const warningDate = new Date(today.getTime() + warningDays * 24 * 60 * 60 * 1000);
-    console.log("CHECK:", warningDate, today, expiryDate)
-    return expiryDate <= warningDate && expiryDate >= today;
+    
+    const result = expiryDate <= warningDate && expiryDate >= today;
+    console.log(`[Inventory] Checking expiry for item: expiryDate=${expiryDate.toISOString()}, today=${today.toISOString()}, warningDate=${warningDate.toISOString()}, warningDays=${warningDays}, result=${result}`);
+    
+    return result;
 }
 
 // Check if expired
@@ -152,22 +156,21 @@ function AddItemPopup({ isOpen, onClose, onAdd }: {
                     </button>
                 </div>
             </div>
-        </div>
-    );
-}
-
-function InventoryRow({ inventoryProps, onDelete, warningDays }: {
+        </div>, warningDays }: {
     inventoryProps: InventoryCardType;
     onDelete: (id: string) => void;
     warningDays: number;
 }) {
     const expired = isExpired(inventoryProps.expiry_date);
-    const expiring = !expired && isExpiringSoon(inventoryProps.expiry_date, warningDays);
-    console.log(inventoryProps.name, expiring)
+    const expiring = !expired && isExpiringSoon(inventoryProps.expiry_date, warningDays
+    onDelete: (id: string) => void;
+}) {
+    const expired = isExpired(inventoryProps.expiry_date);
+    const expiring = !expired && isExpiringWithin3Days(inventoryProps.expiry_date);
     const expiryClass = expired ? styles.expired : (expiring ? styles.warning : '');
 
     const handleDelete = () => {
-        onDelete(inventoryProps.id)
+        onDelete(inventoryProps.id);
     };
 
     return (
@@ -189,7 +192,6 @@ export default function Inventory() {
     const [inventory, setInventory] = useState<InventoryCardType[] | null>(null);
     const [sortKey, setSortKey] = useState<SortKey>('name');
     const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [warningDays, setWarningDays] = useState(parseInt(localStorage.getItem('expiryWarningDays') || '3'));
 
     useEffect(() => {
@@ -197,17 +199,18 @@ export default function Inventory() {
         
         // Listen for storage changes to update warning days
         const handleStorageChange = () => {
-            const newWarningDays = parseInt(localStorage.getItem('expiryWarningDays') || '3');
-            setWarningDays(newWarningDays);
+            setWarningDays(parseInt(localStorage.getItem('expiryWarningDays') || '3'));
         };
         
         window.addEventListener('storage', handleStorageChange);
+        // Also listen for custom event for same-window updates
         window.addEventListener('settingsChanged', handleStorageChange);
         
         return () => {
             window.removeEventListener('storage', handleStorageChange);
             window.removeEventListener('settingsChanged', handleStorageChange);
         };
+        fetchInventoryFromAPI().then(data => setInventory(data))
     }, [])
 
     const handleAddItem = async (item: { name: string; expiry_date: string }) => {
@@ -273,7 +276,8 @@ export default function Inventory() {
                         <button
                             className={`${styles.sortButton} ${sortKey === 'expiry_date' ? styles.active : styles.inactive}`}
                             onClick={() => handleSort('expiry_date')}
-                        >
+                        >    warningDays={warningDays}
+                            
                             Expiry Date {sortKey === 'expiry_date' && (sortOrder === 'asc' ? '↑' : '↓')}
                         </button>
                         <button
@@ -289,7 +293,6 @@ export default function Inventory() {
                                 key={item.id} 
                                 inventoryProps={item} 
                                 onDelete={handleDeleteItem}
-                                warningDays={warningDays}
                             />
                         ))}
                     
