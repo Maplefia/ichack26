@@ -10,7 +10,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 
 # --- CONFIGURATION ---
-os.environ["GOOGLE_API_KEY"] = "AIzaSyCjIeJ30-z7hpqjuvQts9_3vnI9v0KE4Uo"
+os.environ["GOOGLE_API_KEY"] = "AIzaSyAwIoGRwglzqSWMlP9kilaCBUWyUp6P4HI"
 DB_FILE = "item_registry.json"
 
 app = FastAPI(title="Pantry Tracker API")
@@ -34,7 +34,7 @@ class LLMPantryResponse(BaseModel):
 
 class PantryInventory(BaseModel):
     items_added: List[PantryItem]
-    items_removed: List[PantryItem] # Changed from List[str] to List[PantryItem]
+    items_removed: List[PantryItem]
     current_full_inventory: List[PantryItem]
 
 # --- DATABASE LOGIC ---

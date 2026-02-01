@@ -5,6 +5,7 @@ import os
 import socket
 import uuid
 import datetime
+from recipe_service import generate_recipes
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -55,14 +56,64 @@ def get_bots():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
+def create_pantry_state_if_not_exists():
+    if not os.path.exists(PANTRY_STATE_FILE):
+        initial_pantry_data = {
+            "item_registry": {},
+            "items_added": [],
+            "items_removed": [],
+            "current_full_inventory": []
+        }
+        with open(PANTRY_STATE_FILE, "w") as f:
+            json.dump(initial_pantry_data, f, indent=4)
+        print(f"Created initial {PANTRY_STATE_FILE}")
+
+    
 @app.route('/api/recipes', methods=['POST'])
 def recipe_handler():
     try:
-        print('a')
-        info = request.get_json()
-        print(info['allergens'])
-        return jsonify(info), 200
+        request_data = request.get_json()
+        allergens = request_data.get('allergens', [])
+        
+        if not isinstance(allergens, list):
+            return jsonify({'error': 'Allergens must be a list of strings'}), 400
+
+        # Ensure pantry_state.json exists before attempting to read
+        create_pantry_state_if_not_exists()
+
+        pantry_data = {}
+        with open(PANTRY_STATE_FILE, "r") as f:
+            try:
+                pantry_data = json.load(f)
+            except json.JSONDecodeError:
+                return jsonify({'error': 'Invalid JSON format in pantry_state.json'}), 500
+        
+        current_inventory_raw = pantry_data.get('current_full_inventory', [])
+        
+        # Extract only the names of the ingredients from the inventory objects
+        pantry_ingredient_names = []
+        for item in current_inventory_raw:
+            if isinstance(item, dict) and "name" in item and item["name"].strip():
+                pantry_ingredient_names.append(item["name"].strip())
+        
+        # Call the generate_recipes function from recipe_service.py
+        # This function now returns a JSON string
+        recipes_json_string = generate_recipes(
+            pantry_ingredient_names=pantry_ingredient_names,
+            allergies=allergens,
+            llm_model_name="gemini-3-flash-preview" # Specify your desired LLM here
+        )
+        
+        # Parse the JSON string from generate_recipes back into a Python dict
+        # so Flask's jsonify can properly serialize it.
+        recipes_data = json.loads(recipes_json_string)
+
+        return jsonify(recipes_data), 200
+    except ValueError as e:
+        # Catch specific validation errors, e.g., if API key is not set
+        return jsonify({'error': str(e)}), 400
     except Exception as e:
+        print(f"Error in /api/recipes: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/inventory', methods=['POST'])
