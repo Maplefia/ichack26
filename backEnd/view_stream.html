@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera Stream Viewer</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            background: #1a1a1a;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        #stream { 
+            max-width: 90vw; 
+            max-height: 80vh; 
+            border: 2px solid #444;
+            margin: 20px auto;
+            display: block;
+        }
+        #status { 
+            padding: 10px; 
+            margin: 10px;
+            background: #333;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Camera Feed</h1>
+    <div id="status">Connecting...</div>
+    <img id="stream" alt="Waiting for frames...">
+    
+    <script>
+        const img = document.getElementById('stream');
+        const status = document.getElementById('status');
+        const eventSource = new EventSource('http://localhost:5001/api/frame/stream');
+        
+        eventSource.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            img.src = data.image;
+            status.textContent = `Last update: ${new Date(data.timestamp).toLocaleTimeString()}`;
+            status.style.background = '#2d5016';
+        };
+        
+        eventSource.onerror = () => {
+            status.textContent = 'Connection lost. Retrying...';
+            status.style.background = '#6b1e1e';
+        };
+        
+        eventSource.onopen = () => {
+            status.textContent = 'Connected - Waiting for frames...';
+            status.style.background = '#1e4d6b';
+        };
+    </script>
+</body>
+</html>
