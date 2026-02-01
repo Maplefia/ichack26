@@ -1,2 +1,15 @@
 .env
 .DS_Store
+
+# Tauri
+frontEnd/src-tauri/target/
+frontEnd/src-tauri/gen/
+frontEnd/dist/
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
