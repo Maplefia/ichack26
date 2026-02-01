@@ -6,6 +6,7 @@ import socket
 import uuid
 import datetime
 from pantry_analyzer import analyze_pantry_images
+import threading
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -44,6 +45,21 @@ def get_or_create_uuid(item_name: str) -> str:
         json.dump(pantry_data, f, indent=4)
     
     return new_id
+
+def analyze_pantry_thread(before_img, after_img):
+    """
+    Thread function to analyze pantry changes between before and after images
+    """
+    try:
+        print("Starting pantry analysis...")
+        
+        # Run the analysis
+        _ = analyze_pantry_images(before_img, after_img)
+        
+        print(f"Pantry analysis complete.")
+        
+    except Exception as e:
+        print(f"Error in pantry analysis thread: {e}")
 
 # region endpoints
 @app.route('/api/bots', methods=['GET', 'POST'])
@@ -263,7 +279,17 @@ def receive_capture():
             if request.data:
                 latest_capture = request.data
                 # print(f"Received frame: {len(latest_capture)} bytes")
-                return jsonify({'status': 'Frame updated'}), 200
+                
+                # Trigger analysis in separate thread (allows "queueing" multiple analyses)
+                # We pass the current data as arguments so the thread has its own references
+                thread = threading.Thread(target=analyze_pantry_thread, args=(prev_capture, latest_capture), daemon=True)
+                thread.start()
+                
+                # Update captures immediately so we're ready for the next one
+                prev_capture = latest_capture
+                latest_capture = None
+                
+                return jsonify({'status': 'Frame updated, analysis started'}), 200
             else:
                 return jsonify({'error': 'No data received'}), 400
         except Exception as e:
